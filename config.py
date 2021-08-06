@@ -16,37 +16,37 @@ class GopherConfig(gopher.DefaultConfig):
 	port = 7070
 	default = "/"
 
-	def __init__(self):
-		self.get("/", MenuGetter([
-			InfoEntry(" -- This is a test! -- "),
-			FileEntry("Hello, World!", "/testhello"),
-			DirectoryEntry("99 Bottles Of Pop", "/bottlesofbeer"),
-			DirectoryEntry("Another server", "/", host="smar.fi", port="7070"),
-			GIFImageEntry("CAT!", "/cat"),
-			DirectoryEntry("Throw an Exception", "/exception")]))
+def __init__(self):
+	self.get("/", MenuGetter([
+		InfoEntry(" -- This is a test! -- "),
+		FileEntry("Hello, World!", "/testhello"),
+		DirectoryEntry("99 Bottles Of Pop", "/bottlesofbeer"),
+		DirectoryEntry("Another server", "/", host="smar.fi", port="7070"),
+		GIFImageEntry("CAT!", "/cat"),
+		DirectoryEntry("Throw an Exception", "/exception")]))
 
-		self.get("/bottlesofbeer", MenuGetter([
-			FileEntry("99 Bottles Of Pop - Ran!", "/bottlesofbeer/run"),
-			FileEntry("99 Bottles Of Beer - Source!", "/bottlesofbeer/code")]))
+	self.get("/bottlesofbeer", MenuGetter([
+		FileEntry("99 Bottles Of Pop - Ran!", "/bottlesofbeer/run"),
+		FileEntry("99 Bottles Of Beer - Source!", "/bottlesofbeer/code")]))
 
-		self.get("/testhello", TextFileGetter("./www/test.txt"))
-		self.get("/bottlesofbeer/run", ExecutableGetter("./www/bacon"))
-		self.get("/bottlesofbeer/code", TextFileGetter("./www/bacon"))
-		self.get("/cat", BinaryFileGetter("./www/cat.gif"))
-		self.get("/exception", ExceptionEntry())
+	self.get("/testhello", TextFileGetter("./www/test.txt"))
+	self.get("/bottlesofbeer/run", ExecutableGetter("./www/bacon"))
+	self.get("/bottlesofbeer/code", TextFileGetter("./www/bacon"))
+	self.get("/cat", BinaryFileGetter("./www/cat.gif"))
+	self.get("/exception", ExceptionEntry())
 
-	def not_found(self, socket, data):
-		MenuGetter([
-			ErrorEntry("Path {} not found!".format(data[0])),
-			InfoEntry("Did you spell it correctly?")]).output_data(socket, [])
-		print("NOT FOUND")
+def not_found(self, socket, data):
+	MenuGetter([
+		ErrorEntry("Path {} not found!".format(data[0])),
+		InfoEntry("Did you spell it correctly?")]).output_data(socket, [])
+	print("NOT FOUND")
 
-	def on_exception(self, socket, ex):
-		(type, value, trace) = sys.exc_info()
-		arr = []
-		arr.append(ErrorEntry("The server had an exception!"))
-		arr.append(ErrorEntry("Please don't break it!"))
-		tb = traceback.format_exception(type, value, trace)
-		for i in "\n".join(tb).split("\n"):
-			arr.append(InfoEntry(i.replace("\t", "    ")))
-		MenuGetter(arr).output_data(socket, [])
+def on_exception(self, socket, ex):
+	(type, value, trace) = sys.exc_info()
+	arr = []
+	arr.append(ErrorEntry("The server had an exception!"))
+	arr.append(ErrorEntry("Please don't break it!"))
+	tb = traceback.format_exception(type, value, trace)
+	for i in "\n".join(tb).split("\n"):
+		arr.append(InfoEntry(i.replace("\t", "    ")))
+	MenuGetter(arr).output_data(socket, [])
