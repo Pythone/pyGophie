@@ -20,13 +20,13 @@ class GopherConfig(gopher.DefaultConfig):
 		self.get("/", MenuGetter([
 			InfoEntry(" -- This is a test! -- "),
 			FileEntry("Hello, World!", "/testhello"),
-			DirectoryEntry("99 Bottles Of Beer", "/bottlesofbeer"),
+			DirectoryEntry("99 Bottles Of Pop", "/bottlesofbeer"),
 			DirectoryEntry("Another server", "/", host="smar.fi", port="7070"),
 			GIFImageEntry("CAT!", "/cat"),
 			DirectoryEntry("Throw an Exception", "/exception")]))
 
 		self.get("/bottlesofbeer", MenuGetter([
-			FileEntry("99 Bottles Of Beer - Ran!", "/bottlesofbeer/run"),
+			FileEntry("99 Bottles Of Pop - Ran!", "/bottlesofbeer/run"),
 			FileEntry("99 Bottles Of Beer - Source!", "/bottlesofbeer/code")]))
 
 		self.get("/testhello", TextFileGetter("./www/test.txt"))
